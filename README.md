@@ -22,7 +22,8 @@ Telegram Mini App предоставляет богатый интерактив
 │   ├── redis_repository.py   # Совмещённый репозиторий для Product и Store
 │   └── geocoding.py    # Расчет расстояний, генерация маршрутов
 ├── models/             # Pydantic-модели данных
-│   ├── store.py        # Модели Store (магазин) и Product (новый продукт)
+│   ├── store.py        # Модель Store (магазин)
+│   ├── product.py      # Модель Product (продукт)
 ├── keyboards/          # Клавиатуры Telegram (inline-кнопка для Mini App)
 │   └── inline.py
 ├── web_app/            # Фронтенд Telegram Mini App (статические файлы)
