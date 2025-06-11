@@ -1,32 +1,28 @@
-import requests
+import aiohttp
+import asyncio
 from bs4 import BeautifulSoup
 
-class ProductParser:
+class AsyncProductParser:
     def __init__(self, url):
         self.url = url
 
-    def get_html(self):
-        response = requests.get(self.url)
-        if response.status_code == 200:
-            return response.text
-        return None
+    async def fetch_html(self, session):
+        """Асинхронно загружает HTML страницы."""
+        async with session.get(self.url) as response:
+            return await response.text() if response.status == 200 else None
 
-    def parse_product_name(self, product_item):
-        """Извлекает название продукта из тега <h3> с классом page-fresh__name."""
+    async def parse_product_name(self, product_item):
+        """Асинхронно извлекает название продукта."""
         name_tag = product_item.find('h3', class_='page-fresh__name')
         return name_tag.get_text(strip=True) if name_tag else None
 
-    def parse_product_img(self, product_item):
-        """Извлекает URL изображения из тега <img>."""
+    async def parse_product_img(self, product_item):
+        """Асинхронно извлекает URL изображения."""
         img_tag = product_item.find('img')
         return img_tag['src'] if img_tag and 'src' in img_tag.attrs else None
 
-    def parse_product_expiration(self, product_item):
-        """
-        Извлекает срок годности.
-        Ищет все теги <p> и проверяет, содержит ли текст фразу 'Срок годности:'.
-        Если такой тег найден, возвращает текст внутри <span>.
-        """
+    async def parse_product_expiration(self, product_item):
+        """Асинхронно извлекает срок годности."""
         p_tags = product_item.find_all('p')
         for p in p_tags:
             if "Срок годности:" in p.get_text():
@@ -34,12 +30,8 @@ class ProductParser:
                 return span.get_text(strip=True) if span else None
         return None
 
-    def parse_product_ingredients(self, product_item):
-        """
-        Извлекает состав продукта.
-        Ищет все теги <p> и проверяет, содержит ли текст фразу 'Состав:'.
-        Если такой тег найден, возвращает текст внутри <span>.
-        """
+    async def parse_product_ingredients(self, product_item):
+        """Асинхронно извлекает состав."""
         p_tags = product_item.find_all('p')
         for p in p_tags:
             if "Состав:" in p.get_text():
@@ -47,25 +39,41 @@ class ProductParser:
                 return span.get_text(strip=True) if span else None
         return None
 
-    def parse_products(self):
-        """Обходит все товары на странице и собирает данные для каждого из них."""
-        html = self.get_html()
-        if not html:
-            return None
-        soup = BeautifulSoup(html, 'html.parser')
-        products = []
-        for product_item in soup.find_all('div', class_='page-fresh__column'):
-            product = {
-                'Название': self.parse_product_name(product_item),
-                'Картинка': self.parse_product_img(product_item),
-                'Срок годности': self.parse_product_expiration(product_item),
-                'Состав': self.parse_product_ingredients(product_item)
-            }
-            products.append(product)
-        return products
+    async def parse_products(self):
+        """Асинхронно обходит все товары и собирает данные."""
+        async with aiohttp.ClientSession() as session:
+            html = await self.fetch_html(session)
+            if not html:
+                return None
 
-# Пример использования:
-if __name__ == '__main__':
-    parser = ProductParser("https://mkgomel.by")
-    products = parser.parse_products()
+            soup = BeautifulSoup(html, 'html.parser')
+            products = []
+
+            tasks = []
+            for product_item in soup.find_all('div', class_='page-fresh__column'):
+                tasks.append(asyncio.gather(
+                    self.parse_product_name(product_item),
+                    self.parse_product_img(product_item),
+                    self.parse_product_expiration(product_item),
+                    self.parse_product_ingredients(product_item)
+                ))
+
+            results = await asyncio.gather(*tasks)
+
+            for result in results:
+                products.append({
+                    'Название': result[0],
+                    'Картинка': result[1],
+                    'Срок годности': result[2],
+                    'Состав': result[3]
+                })
+
+            return products
+
+# Запуск:
+async def main():
+    parser = AsyncProductParser("https://mkgomel.by")
+    products = await parser.parse_products()
     print(products)
+
+asyncio.run(main())
