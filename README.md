@@ -12,38 +12,27 @@ Telegram Mini App предоставляет богатый интерактив
 Проект разделен на две основные части: Бэкенд (Python) и Фронтенд (Web), взаимодействующие через API.
 ```text
 ├── bot.py              # Основной файл Telegram-бота (aiogram)
-
 ├── config.py           # Конфигурация проекта (токены, URL-ы, настройки Redis)
-
 ├── handlers/           # Обработчики сообщений Telegram
-
 │   └── mini_app.py     # Хэндлер для запуска Mini App
-
-├── services/           # Бизнес-логика и взаимодействие с внешними сервисами
-
+├── services/           # Бизнес-логика и взаимодействие с внешними сервисам
 │   ├── store_api.py    # Парсинг данных с сайта, кэширование в Redis, работа с моделями Store и Product
-
+│   ├── store_repository.py   # Работа с моделями Store в Redis
+│   ├── product_repository.py # Работа с моделями Product в Redis
+│   ├── redis_repository.py   # Совмещённый репозиторий для Product и Store
 │   └── geocoding.py    # Расчет расстояний, генерация маршрутов
-
 ├── models/             # Pydantic-модели данных
-
 │   ├── store.py        # Модели Store (магазин) и Product (новый продукт)
-
 ├── keyboards/          # Клавиатуры Telegram (inline-кнопка для Mini App)
-
 │   └── inline.py
 ├── web_app/            # Фронтенд Telegram Mini App (статические файлы)
-
 │   ├── static/         # CSS, JS, изображения
 │   │   ├── css/
 │   │   ├── js/
 │   │   └── images/
 │   └── templates/      # HTML-файлы
-
 │       └── index.html  # Основной HTML-файл Mini App
-
 ├── main.py             # Точка входа веб-сервера (FastAPI/Flask) для обслуживания API Mini App
-
 └── utils/              # Вспомогательные утилиты
 ```
 
