@@ -1,0 +1,38 @@
+from __future__ import annotations
+
+from typing import Any, List, Optional
+
+from models import Store
+
+from .base_redis_repository import BaseRedisRepository
+
+
+class StoreRedisRepository(BaseRedisRepository):
+    """CRUD-операции для моделей Store в Redis."""
+
+    async def add_store(self, store: Store, ttl: int | None = 1800) -> None:
+        await self._set_json(f"store:{store.id}", store.model_dump(), ttl)
+
+    async def get_store(self, store_id: str) -> Optional[Store]:
+        data = await self._get_json(f"store:{store_id}")
+        return Store.model_validate(data) if data else None
+
+    async def update_store(self, store_id: str, **fields: Any) -> Optional[Store]:
+        existing = await self.get_store(store_id)
+        if not existing:
+            return None
+        updated = existing.model_copy(update=fields)
+        await self.add_store(updated)
+        return updated
+
+    async def delete_store(self, store_id: str) -> None:
+        await self._delete(f"store:{store_id}")
+
+    async def list_stores(self) -> List[Store]:
+        keys = await self._scan_keys("store:*")
+        stores: List[Store] = []
+        for key in keys:
+            data = await self._get_json(key)
+            if data:
+                stores.append(Store.model_validate(data))
+        return stores
