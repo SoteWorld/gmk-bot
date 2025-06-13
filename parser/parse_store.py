@@ -52,7 +52,6 @@ class AsyncStoreParser:
             stores = []
             tasks = []
 
-            # Ищем все блоки магазинов по соответствующему CSS-классу
             for store_item in soup.find_all('div', class_='module-page__column-md2'):
                 tasks.append(
                     asyncio.gather(
@@ -72,19 +71,17 @@ class AsyncStoreParser:
                     address=result[1],
                     opening_hours=result[2],
                     phone=result[3],
-                    latitude=None,   # Если в дальнейшем понадобится геокодирование, можно добавить логику
+                    latitude=None,
                     longitude=None
                 )
                 stores.append(store_obj)
 
             return stores
 
-# Пример запуска парсинга
 async def main():
     parser = AsyncStoreParser("https://mkgomel.by/firmennaya-torgovlya/")
     stores = await parser.parse_stores()
     if stores:
-        # Вывод в виде списка словарей (можно использовать .dict() для каждого объекта)
         print([store.model_dump() for store in stores])
     else:
         print("Не удалось получить данные.")
