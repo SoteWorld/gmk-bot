@@ -21,7 +21,7 @@ class DataLoader:
         self.store_parser = store_parser or StoreParser()
 
     async def reload_products(self, ttl: int | None = 1800, clear: bool = True) -> List[Product]:
-        if clear: await self.repository.clear_stores()
+        if clear: await self.repository.clear_products()
         products = await self.product_parser.parse()
         if not products:
             return []
