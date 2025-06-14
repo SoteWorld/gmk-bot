@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 from typing import Optional, Tuple
 
+from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 
@@ -15,7 +16,7 @@ class Geocoder:
         self._rate_limited = RateLimiter(self._geocoder.geocode, min_delay_seconds=1)
 
     async def geocode(self, query: str) -> Tuple[Optional[float], Optional[float]]:
-        """"""
+        """Возвращает координаты места по текстовому адресу"""
         loop = asyncio.get_event_loop()
         try:
             location = await loop.run_in_executor(None, self._rate_limited, query)
@@ -24,3 +25,22 @@ class Geocoder:
         if location:
             return location.latitude, location.longitude
         return None, None
+
+    @staticmethod
+    def distance(
+            origin: Tuple[float, float], destination: Tuple[float, float]
+    ) -> float:
+        """Возвращает расстояние между двумя точками в километрах."""
+        return geodesic(origin, destination).kilometers
+
+    @staticmethod
+    def route_url(
+            origin: Tuple[float, float], destination: Tuple[float, float]
+    ) -> str:
+        """Формирует ссылку для построения маршрута на OpenStreetMap."""
+        o_lat, o_lon = origin
+        d_lat, d_lon = destination
+        return (
+            "https://www.openstreetmap.org/directions?engine=fossgis_osrm_car"
+            f"&route={o_lat}%2C{o_lon}%3B{d_lat}%2C{d_lon}"
+        )
