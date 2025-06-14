@@ -1,5 +1,8 @@
-import aiohttp
 import asyncio
+import pprint
+from typing import Optional
+
+import aiohttp
 from bs4 import BeautifulSoup
 from models import Store
 
@@ -7,38 +10,38 @@ class AsyncStoreParser:
     def __init__(self, url: str):
         self.url = url
 
-    async def fetch_html(self, session: aiohttp.ClientSession) -> str:
+    async def fetch_html(self, session: aiohttp.ClientSession) -> Optional[str]:
         """Асинхронно загружает HTML страницы."""
         async with session.get(self.url) as response:
             return await response.text() if response.status == 200 else None
 
-    async def parse_store_name(self, store_item) -> str:
+    async def parse_store_name(self, store_item) -> Optional[str]:
         """Извлекает название магазина."""
         name_tag = store_item.find('h2', class_='module-page__decor-title')
         return name_tag.get_text(strip=True) if name_tag else None
 
-    async def parse_store_address(self, store_item) -> str:
+    async def parse_store_address(self, store_item) -> Optional[str]:
         """Извлекает адрес магазина."""
         for p_tag in store_item.find_all('p'):
             if "Адрес:" in p_tag.get_text():
                 return p_tag.get_text(strip=True).replace("Адрес:", "").strip()
         return None
 
-    async def parse_store_hours(self, store_item) -> str:
+    async def parse_store_hours(self, store_item) -> Optional[str]:
         """Извлекает режим работы магазина."""
         for p_tag in store_item.find_all('p'):
             if "Режим работы:" in p_tag.get_text():
                 return p_tag.get_text(strip=True).replace("Режим работы:", "").strip()
         return None
 
-    async def parse_store_phone(self, store_item) -> str:
+    async def parse_store_phone(self, store_item) -> Optional[str]:
         """Извлекает телефон магазина."""
         for p_tag in store_item.find_all('p'):
             if "Телефон:" in p_tag.get_text():
                 return p_tag.get_text(strip=True).replace("Телефон:", "").strip()
         return None
 
-    async def parse_stores(self) -> list:
+    async def parse_stores(self) -> Optional[list]:
         """
         Асинхронно обходит все магазины, собирает данные
         и приводит их к модели Store.
@@ -82,7 +85,7 @@ async def main():
     parser = AsyncStoreParser("https://mkgomel.by/firmennaya-torgovlya/")
     stores = await parser.parse_stores()
     if stores:
-        print([store.model_dump() for store in stores])
+        pprint.pprint([store.model_dump() for store in stores])
     else:
         print("Не удалось получить данные.")
 

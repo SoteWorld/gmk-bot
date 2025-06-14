@@ -1,30 +1,32 @@
-import aiohttp
 import asyncio
-import re
-from datetime import date, timedelta
+import pprint
+from typing import Optional
+
+import aiohttp
 from bs4 import BeautifulSoup
 from models import Product
+
 
 class AsyncProductParser:
     def __init__(self, url: str):
         self.url = url
 
-    async def fetch_html(self, session: aiohttp.ClientSession) -> str:
+    async def fetch_html(self, session: aiohttp.ClientSession) -> Optional[str]:
         """Асинхронно загружает HTML страницы."""
         async with session.get(self.url) as response:
             return await response.text() if response.status == 200 else None
 
-    async def parse_product_name(self, product_item) -> str:
+    async def parse_product_name(self, product_item) -> Optional[str]:
         """Извлекает название продукта."""
         name_tag = product_item.find('h3', class_='page-fresh__name')
         return name_tag.get_text(strip=True) if name_tag else None
 
-    async def parse_product_img(self, product_item) -> str:
+    async def parse_product_img(self, product_item) -> Optional[str]:
         """Извлекает URL изображения продукта."""
         img_tag = product_item.find('img')
         return img_tag['src'] if img_tag and 'src' in img_tag.attrs else None
 
-    async def parse_product_expiration(self, product_item) -> str:
+    async def parse_product_expiration(self, product_item) -> Optional[str]:
         """
         Извлекает срок годности продукта.
         Если в теге содержится текст вида "60 суток", возвращает этот текст.
@@ -39,7 +41,7 @@ class AsyncProductParser:
                     return exp_text
         return None
 
-    async def parse_product_ingredients(self, product_item) -> str:
+    async def parse_product_ingredients(self, product_item) -> Optional[str]:
         """Извлекает состав продукта."""
         p_tags = product_item.find_all('p')
         for p in p_tags:
@@ -48,7 +50,7 @@ class AsyncProductParser:
                 return span.get_text(strip=True) if span else None
         return None
 
-    async def parse_products(self) -> list:
+    async def parse_products(self) -> Optional[list]:
         """Асинхронно обходит все товары и приводит полученные данные к модели Product."""
         async with aiohttp.ClientSession() as session:
             html = await self.fetch_html(session)
@@ -72,8 +74,7 @@ class AsyncProductParser:
                     name=result[0],
                     image=result[1],
                     expiration_date=result[2],
-                    ingredients=result[3],
-                    description=None
+                    ingredients=result[3]
                 )
                 products.append(product_obj)
 
@@ -83,7 +84,7 @@ async def main():
     parser = AsyncProductParser("https://mkgomel.by")
     products = await parser.parse_products()
     if products:
-        print([product.model_dump() for product in products])
+        pprint.pprint([product.model_dump() for product in products])
     else:
         print("Не удалось получить данные.")
 
