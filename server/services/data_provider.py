@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import List, Optional, Tuple
 
-from models import Product, StoreWithDistance
-from repositories import RedisRepository
+from server.models import Product, StoreWithDistance
+from server.repositories import RedisRepository
 
 from .data_loader import DataLoader
 from .geocoder import Geocoder

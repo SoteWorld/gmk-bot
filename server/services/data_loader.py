@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from parsers import ProductParser, StoreParser
-from models import Product, Store
-from repositories import RedisRepository
+from server.parsers import ProductParser, StoreParser
+from server.models import Product, Store
+from server.repositories import RedisRepository
 
 
 class DataLoader:

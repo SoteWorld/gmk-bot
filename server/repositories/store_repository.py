@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 
-from models import Store
+from server.models import Store
 
-from services.geocoder import Geocoder
+from server.services.geocoder import Geocoder
 from .base_redis_repository import BaseRedisRepository
 
 

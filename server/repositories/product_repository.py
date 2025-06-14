@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 
-from models import Product
+from server.models import Product
 
 from .base_redis_repository import BaseRedisRepository
 

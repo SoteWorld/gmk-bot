@@ -5,8 +5,8 @@ from typing import Optional, List
 import aiohttp
 from bs4 import BeautifulSoup
 
-from models import Store
-from parsers.base import BaseParser
+from server.models import Store
+from server.parsers.base import BaseParser
 
 
 class StoreParser(BaseParser):

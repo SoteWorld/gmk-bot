@@ -12,7 +12,7 @@ __pycache__/
 # .python-version
 
 # Environments
-.env
+../client/.env
 .venv
 env/
 venv/
