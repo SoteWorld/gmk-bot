@@ -11,7 +11,7 @@ from parsers.base import BaseParser
 
 class ProductParser(BaseParser):
     """Парсер списка продуктов с веб-страницы."""
-    DEFAULT_URL = "https://mkgomel.by"
+    DEFAULT_URL = "https://mkgomel.by/category/products/"
 
     def __init__(self, url: str = DEFAULT_URL) -> None:
         super().__init__(url)
@@ -19,7 +19,7 @@ class ProductParser(BaseParser):
     @classmethod
     def _parse_name(cls, item) -> Optional[str]:
         """Извлекает название продукта."""
-        tag = item.find("h3", class_="page-fresh__name")
+        tag = item.find("h2", class_="module-catalog__title")
         return tag.get_text(strip=True) if tag else None
 
     @classmethod
@@ -55,7 +55,7 @@ class ProductParser(BaseParser):
 
             soup = BeautifulSoup(html, "html.parser")
             products: List[Product] = []
-            for item in soup.find_all("div", class_="page-fresh__column"):
+            for item in soup.find_all("div", class_="module-catalog__column fresh mix"):
                 products.append(
                     Product(
                         name=self._parse_name(item),
