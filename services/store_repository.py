@@ -39,10 +39,11 @@ class StoreRedisRepository(BaseRedisRepository):
                 stores.append(Store.model_validate(data))
         return stores
 
-    async def _update_geocode_store(self, store: Store) -> type[Store]:
+    @classmethod
+    async def _update_geocode_store(cls, store: Store) -> Store:
         """Обновляет координаты магазина."""
         geocoder = Geocoder()
         latitude, longitude = await geocoder.geocode(store.address)
-        Store.latitude = latitude
-        Store.longitude = longitude
-        return Store
+        store.latitude = latitude
+        store.longitude = longitude
+        return store
