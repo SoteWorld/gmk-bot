@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import asyncio
-import pprint
 from typing import Optional, List
 
 import aiohttp
@@ -16,7 +14,6 @@ class ProductParser(BaseParser):
     DEFAULT_URL = "https://mkgomel.by"
 
     def __init__(self, url: str = DEFAULT_URL) -> None:
-        """Инициализирует парсер с помощью необязательного URL страницы."""
         super().__init__(url)
 
     @classmethod
@@ -68,15 +65,3 @@ class ProductParser(BaseParser):
                     )
                 )
             return products
-
-
-async def main():
-    parser = ProductParser()
-    products = await parser.parse()
-    if products:
-        pprint.pprint([product.model_dump() for product in products])
-    else:
-        print("Не удалось получить данные.")
-
-if __name__ == '__main__':
-    asyncio.run(main())

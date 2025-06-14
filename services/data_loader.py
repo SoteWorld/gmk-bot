@@ -21,7 +21,6 @@ class DataLoader:
         self.store_parser = store_parser or StoreParser()
 
     async def load_products(self, ttl: int | None = 1800) -> List[Product]:
-        """"""
         products = await self.product_parser.parse()
         if not products:
             return []

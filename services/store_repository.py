@@ -4,6 +4,7 @@ from typing import Any, List, Optional
 
 from models import Store
 
+from .geocoder import Geocoder
 from .base_redis_repository import BaseRedisRepository
 
 
@@ -11,6 +12,7 @@ class StoreRedisRepository(BaseRedisRepository):
     """CRUD-операции для моделей Store в Redis."""
 
     async def add_store(self, store: Store, ttl: int | None = 1800) -> None:
+        await self._update_geocode_store(store)
         await self._set_json(f"store:{store.id}", store.model_dump(), ttl)
 
     async def get_store(self, store_id: str) -> Optional[Store]:
@@ -36,3 +38,11 @@ class StoreRedisRepository(BaseRedisRepository):
             if data:
                 stores.append(Store.model_validate(data))
         return stores
+
+    async def _update_geocode_store(self, store: Store) -> type[Store]:
+        """Обновляет координаты магазина."""
+        geocoder = Geocoder()
+        latitude, longitude = await geocoder.geocode(store.address)
+        Store.latitude = latitude
+        Store.longitude = longitude
+        return Store
