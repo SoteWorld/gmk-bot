@@ -4,7 +4,7 @@ from typing import Any, List, Optional
 
 from models import Store
 
-from .geocoder import Geocoder
+from services.geocoder import Geocoder
 from .base_redis_repository import BaseRedisRepository
 
 

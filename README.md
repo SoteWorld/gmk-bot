@@ -15,10 +15,11 @@ Telegram Mini App предоставляет богатый интерактив
 
 - `models` – pydantic модели `Store` и `Product`.
 - `parsers` – асинхронные парсеры `StoreParser` и `ProductParser`.
-- `services` – работа с Redis и загрузка данных:
+- `repositories` – работа с Redis:
   - `BaseRedisRepository` – низкоуровневый доступ к Redis.
   - `StoreRedisRepository` и `ProductRedisRepository` – CRUD операции для моделей.
   - `RedisRepository` – объединяющий репозиторий.
+- `services` – загрузка данных и вспомогательные функции:
   - `DataLoader` – сервис, который запускает парсеры и сохраняет результаты в Redis.
 
 ```

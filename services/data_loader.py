@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from parsers import ProductParser, StoreParser
 from models import Product, Store
-from .redis_repository import RedisRepository
+from repositories import RedisRepository
 
 
 class DataLoader:
