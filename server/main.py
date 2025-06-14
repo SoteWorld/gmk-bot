@@ -1,10 +1,11 @@
-import uvicorn
-from config_reader import config, app, dp
+from __future__ import annotations
 
+import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
-from bot.handlers import setup_routers as setup_bot_routers
-from api import setup_routers as setup_api_routers
+from server.config_reader import config, app, dp
+from server.bot.handlers import setup_routers as setup_bot_routers
+from server.api import setup_routers as setup_api_routers
 
 app.add_middleware(
     CORSMiddleware,
