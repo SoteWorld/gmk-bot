@@ -20,7 +20,8 @@ class DataLoader:
         self.product_parser = product_parser or ProductParser()
         self.store_parser = store_parser or StoreParser()
 
-    async def load_products(self, ttl: int | None = 1800) -> List[Product]:
+    async def reload_products(self, ttl: int | None = 1800, clear: bool = True) -> List[Product]:
+        if clear: await self.repository.flush()
         products = await self.product_parser.parse()
         if not products:
             return []
@@ -28,7 +29,8 @@ class DataLoader:
             await self.repository.add_product(product, ttl=ttl)
         return products
 
-    async def load_stores(self, ttl: int | None = 1800) -> List[Store]:
+    async def reload_stores(self, ttl: int | None = 1800, clear: bool = True) -> List[Store]:
+        if clear: await self.repository.flush()
         stores = await self.store_parser.parse()
         if not stores:
             return []
@@ -36,9 +38,10 @@ class DataLoader:
             await self.repository.add_store(store, ttl=ttl)
         return stores
 
-    async def load_all(self, ttl: int | None = 1800) -> None:
-        await self.load_products(ttl=ttl)
-        await self.load_stores(ttl=ttl)
+    async def reload_all(self, ttl: int | None = 1800) -> None:
+        await self.repository.flush()
+        await self.reload_products(ttl=ttl)
+        await self.reload_stores(ttl=ttl)
 
     async def close(self) -> None:
         await self.repository.close()

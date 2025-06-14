@@ -15,6 +15,10 @@ class BaseRedisRepository:
     async def close(self) -> None:
         await self._redis.close()
 
+    async def flush(self) -> None:
+        """Очищает текущую БД Redis от абсолютно всех данных."""
+        await self._redis.flushdb()
+
     # -------------------- вспомогательные методы --------------------
     async def _set_json(self, key: str, value: Any, ttl: int | None = 1800) -> None:
         data = json.dumps(value)
