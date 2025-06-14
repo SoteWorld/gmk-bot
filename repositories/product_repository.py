@@ -28,6 +28,10 @@ class ProductRedisRepository(BaseRedisRepository):
     async def delete_product(self, product_id: str) -> None:
         await self._delete(f"product:{product_id}")
 
+    async def clear_products(self) -> None:
+        """Удаляет из Redis все записи о продуктах."""
+        await self._delete_by_pattern("product:*")
+
     async def list_products(self) -> List[Product]:
         keys = await self._scan_keys("product:*")
         products: List[Product] = []

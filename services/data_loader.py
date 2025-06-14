@@ -21,7 +21,7 @@ class DataLoader:
         self.store_parser = store_parser or StoreParser()
 
     async def reload_products(self, ttl: int | None = 1800, clear: bool = True) -> List[Product]:
-        if clear: await self.repository.flush()
+        if clear: await self.repository.clear_stores()
         products = await self.product_parser.parse()
         if not products:
             return []
@@ -30,7 +30,7 @@ class DataLoader:
         return products
 
     async def reload_stores(self, ttl: int | None = 1800, clear: bool = True) -> List[Store]:
-        if clear: await self.repository.flush()
+        if clear: await self.repository.clear_stores()
         stores = await self.store_parser.parse()
         if not stores:
             return []
@@ -40,8 +40,8 @@ class DataLoader:
 
     async def reload_all(self, ttl: int | None = 1800) -> None:
         await self.repository.flush()
-        await self.reload_products(ttl=ttl)
-        await self.reload_stores(ttl=ttl)
+        await self.reload_products(ttl=ttl, clear=False)
+        await self.reload_stores(ttl=ttl, clear=False)
 
     async def close(self) -> None:
         await self.repository.close()

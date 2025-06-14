@@ -19,6 +19,12 @@ class BaseRedisRepository:
         """Очищает текущую БД Redis от абсолютно всех данных."""
         await self._redis.flushdb()
 
+    async def _delete_by_pattern(self, pattern: str) -> None:
+        """Удаляет из Redis все ключи, подходящие под указанный шаблон."""
+        keys = await self._scan_keys(pattern)
+        if keys:
+            await self._redis.delete(*keys)
+
     # -------------------- вспомогательные методы --------------------
     async def _set_json(self, key: str, value: Any, ttl: int | None = 1800) -> None:
         data = json.dumps(value)

@@ -30,6 +30,10 @@ class StoreRedisRepository(BaseRedisRepository):
     async def delete_store(self, store_id: str) -> None:
         await self._delete(f"store:{store_id}")
 
+    async def clear_stores(self) -> None:
+        """Удаляет из Redis все записи о магазинах."""
+        await self._delete_by_pattern("store:*")
+
     async def list_stores(self) -> List[Store]:
         keys = await self._scan_keys("store:*")
         stores: List[Store] = []
