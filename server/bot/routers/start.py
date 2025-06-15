@@ -1,6 +1,6 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from ..keyboards import menu_markup
 
@@ -13,3 +13,11 @@ async def cmd_start(message: Message) -> None:
         "Добро пожаловать! Выберите действие:",
         reply_markup=menu_markup,
     )
+
+
+@router.callback_query(F.data == "menu")
+async def menu_callback(call: CallbackQuery) -> None:
+    await call.message.answer(
+        "Добро пожаловать! Выберите действие:", reply_markup=menu_markup
+    )
+    await call.answer()
