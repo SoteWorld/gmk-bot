@@ -4,8 +4,8 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.config_reader import config, app, dp
-from server.bot.handlers import setup_routers as setup_bot_routers
-from server.routes import setup_routers as setup_http_routers
+from server.bot.routers import setup_routers as setup_bot_routers
+from server.api import setup_routers as setup_http_routers
 
 app.add_middleware(
     CORSMiddleware,

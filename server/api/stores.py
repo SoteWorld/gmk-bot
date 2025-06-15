@@ -11,6 +11,7 @@ from .dependencies import get_data_provider
 
 router = APIRouter(prefix="/stores", tags=["stores"])
 
+
 @router.get("/nearby", response_model=List[StoreWithDistance])
 async def list_nearby_stores(
     lat: float = Query(..., description="User latitude"),
