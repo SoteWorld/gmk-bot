@@ -7,6 +7,6 @@ class Product(BaseModel):
     """Модель данных для представления нового продукта."""
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), description="Уникальный идентификатор продукта (генерируется).")
     name: str = Field(..., description="Название продукта.")
-    image: Optional[HttpUrl] = Field(None, description="URL картинки продукта.")
+    image: Optional[str] = Field(None, description="URL картинки продукта.")
     expiration_date: Optional[str] = Field(None, description="Срок годности продукта.")
     ingredients: Optional[str] = Field(None, description="Состав продукта.")
