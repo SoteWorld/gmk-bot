@@ -14,10 +14,3 @@ async def cmd_start(message: Message) -> None:
         reply_markup=menu_markup,
     )
 
-
-@router.callback_query(F.data == "menu")
-async def menu_callback(call: CallbackQuery) -> None:
-    await call.message.answer(
-        "Добро пожаловать! Выберите действие:", reply_markup=menu_markup
-    )
-    await call.answer()
