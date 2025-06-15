@@ -15,6 +15,16 @@ async def list_products(call: CallbackQuery) -> None:
         await call.answer("Нет данных", show_alert=True)
         return
 
-    text = "\n".join(f"• {p.name}" for p in products)
-    await call.message.answer(text, reply_markup=menu_markup)
+    parts = []
+    for idx, product in enumerate(products[:10]):
+        part = f"<b>{idx + 1}. {product.name}</b>"
+        if product.ingredients:
+            part += f"\nСостав: {product.ingredients}"
+        if product.expiration_date:
+            part += f"\nСрок годности: {product.expiration_date}"
+        parts.append(part)
+
+    await call.message.answer(
+        "\n\n".join(parts), parse_mode="HTML", reply_markup=menu_markup
+    )
     await call.answer()

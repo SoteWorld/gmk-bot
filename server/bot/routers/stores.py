@@ -33,11 +33,20 @@ async def show_nearby(message: Message) -> None:
     parts = []
     for store in stores[:5]:
         part = (
-            f"{store.name}\n"
+            f"<b>{store.name}</b>\n"
             f"Адрес: {store.address}\n"
             f"Расстояние: {store.distance:.1f} км"
         )
+        if store.opening_hours:
+            part += f"\nВремя работы: {store.opening_hours}"
+        if store.phone:
+            part += f"\nТел.: {store.phone}"
         if store.route_url:
             part += f"\n[Маршрут]({store.route_url})"
         parts.append(part)
-    await message.answer("\n\n".join(parts), disable_web_page_preview=True, reply_markup=menu_markup)
+    await message.answer(
+        "\n\n".join(parts),
+        parse_mode="HTML",
+        disable_web_page_preview=True,
+        reply_markup=menu_markup,
+    )

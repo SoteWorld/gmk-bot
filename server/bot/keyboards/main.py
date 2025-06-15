@@ -7,6 +7,7 @@ builder = InlineKeyboardBuilder()
 builder.button(text="Новые продукты", callback_data="products")
 builder.button(text="Ближайшие магазины", callback_data="stores")
 builder.button(text="Открыть Mini App", web_app=WebAppInfo(url=config.WEBAPP_URL))
+builder.button(text="ℹ️ Помощь", callback_data="help")
 builder.adjust(1)
 
 menu_markup = builder.as_markup()

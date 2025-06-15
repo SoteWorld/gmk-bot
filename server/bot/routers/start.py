@@ -1,5 +1,5 @@
 from aiogram import Router
-from aiogram.filters import CommandStart
+from aiogram.filters import Command
 from aiogram.types import Message
 
 from ..keyboards import menu_markup
@@ -7,7 +7,7 @@ from ..keyboards import menu_markup
 router = Router(name="start")
 
 
-@router.message(CommandStart())
+@router.message(Command("start", "menu"))
 async def cmd_start(message: Message) -> None:
     await message.answer(
         "Добро пожаловать! Выберите действие:",
