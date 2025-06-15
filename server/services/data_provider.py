@@ -43,7 +43,7 @@ class DataProvider:
                     (user_lat, user_lon), (store.latitude, store.longitude)
                 )
             else:
-                distance = float("inf")
+                distance = float("0")
                 route = None
             stores_with_distance.append(
                 StoreWithDistance(
