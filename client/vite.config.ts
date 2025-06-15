@@ -26,7 +26,7 @@ export default defineConfig({
       },
     },
     allowedHosts: [
-        "fc5a1bad75703ee866f945fa91f0f437.serveo.net",
+        "6676b6d12c1c1de3513ccda9e337cbdb.serveo.net",
       ]
   },
 })
