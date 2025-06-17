@@ -46,8 +46,17 @@ class ProductParser(BaseParser):
                 return span.get_text(strip=True) if span else None
         return None
 
+    @classmethod
+    def _parse_category(cls, item) -> Optional[str]:
+        """Извлекает категорию продукта из классов элемента."""
+        classes = item.get("class", [])
+        for cls_name in classes:
+            if cls_name not in {"module-catalog__column", "mix"}:
+                return cls_name
+        return None
+
     async def parse(self) -> Optional[List[Product]]:
-        """Собирает данные о всех новых продуктах с сайта и приводит их к модели Product."""
+        """Собирает данные о продуктах со страницы."""
         async with aiohttp.ClientSession() as session:
             html = await self.fetch_html(session)
             if not html:
@@ -55,13 +64,14 @@ class ProductParser(BaseParser):
 
             soup = BeautifulSoup(html, "html.parser")
             products: List[Product] = []
-            for item in soup.find_all("div", class_="module-catalog__column fresh mix"):
+            for item in soup.select("div.module-catalog__column"):
                 products.append(
                     Product(
                         name=self._parse_name(item),
                         image=self._parse_image(item),
                         expiration_date=self._parse_expiration(item),
                         ingredients=self._parse_ingredients(item),
+                        category=self._parse_category(item),
                     )
                 )
             return products

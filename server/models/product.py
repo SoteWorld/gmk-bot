@@ -10,3 +10,4 @@ class Product(BaseModel):
     image: Optional[str] = Field(None, description="URL картинки продукта.")
     expiration_date: Optional[str] = Field(None, description="Срок годности продукта.")
     ingredients: Optional[str] = Field(None, description="Состав продукта.")
+    category: Optional[str] = Field(None, description="Тип продукта (например, новинка, пельмени и т.д.).")
