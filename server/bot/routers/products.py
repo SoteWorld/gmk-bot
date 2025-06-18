@@ -1,5 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from server.services.data_provider import DataProvider
 from ..keyboards import menu_markup
@@ -9,8 +10,27 @@ provider = DataProvider()
 
 
 @router.callback_query(F.data == "products")
+async def choose_category(call: CallbackQuery) -> None:
+    categories = await provider.list_categories()
+    if not categories:
+        await call.answer("Нет данных", show_alert=True)
+        return
+
+    builder = InlineKeyboardBuilder()
+    for cat in categories:
+        builder.button(text=cat, callback_data=f"category:{cat}")
+    builder.adjust(1)
+
+    await call.message.answer(
+        "Выберите категорию:", reply_markup=builder.as_markup()
+    )
+    await call.answer()
+
+
+@router.callback_query(F.data.startswith("category:"))
 async def list_products(call: CallbackQuery) -> None:
-    products = await provider.list_products()
+    category = call.data.split(":", 1)[1]
+    products = await provider.list_products_by_category(category)
     if not products:
         await call.answer("Нет данных", show_alert=True)
         return
