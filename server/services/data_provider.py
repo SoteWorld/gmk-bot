@@ -60,3 +60,14 @@ class DataProvider:
             await self.data_loader.reload_products(clear=True)
             products = await self.repository.list_products()
         return products or []
+
+    async def list_categories(self) -> List[str]:
+        """Возвращает все доступные категории продуктов."""
+        products = await self.list_products()
+        categories = {product.category for product in products if product.category}
+        return sorted(categories)
+
+    async def list_products_by_category(self, category: str) -> List[Product]:
+        """Возвращает продукты, принадлежащие указанной категории."""
+        products = await self.list_products()
+        return [p for p in products if p.category == category]
