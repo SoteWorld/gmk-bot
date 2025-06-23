@@ -18,7 +18,7 @@ location_keyboard = ReplyKeyboardMarkup(
 @router.callback_query(F.data == "stores")
 async def request_location(call: CallbackQuery) -> None:
     await call.message.answer(
-        "📍 Отправьте свою геолокацию",
+        "📍 Поделитесь своей геолокацией, и я подскажу, какие магазины находятся поблизости",
         reply_markup=location_keyboard,
     )
     await call.answer()

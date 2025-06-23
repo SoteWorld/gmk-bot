@@ -36,7 +36,8 @@ async def choose_category(call: CallbackQuery) -> None:
     builder.adjust(1)
 
     await call.message.edit_text(
-        "📂 Выберите категорию:", reply_markup=builder.as_markup()
+        "📂 Пожалуйста, выберите интересующую вас категорию товаров:",
+        reply_markup=builder.as_markup(),
     )
     await call.answer()
 
