@@ -29,14 +29,14 @@ def build_page_text(stores, start, end):
     parts = []
     for store in stores[start:end]:
         part = (
-            f"<b>{store.name}</b>\n"
-            f"Адрес: {store.address}\n"
-            f"Расстояние: {store.distance:.1f} км"
+            f"🏬 <b>{store.name}</b>\n"
+            f"📬 Адрес: {store.address}\n"
+            f"🗺️ Расстояние: {store.distance:.1f} км"
         )
         if store.opening_hours:
-            part += f"\nВремя работы: {store.opening_hours}"
+            part += f"\n⌛️ Время работы: {store.opening_hours}"
         if store.phone:
-            part += f"\nТел.: {store.phone}"
+            part += f"\n📞 Тел.: {store.phone}"
         if store.route_url:
             part += f'\n<a href="{store.route_url}">Проложить Маршрут</a>'
         parts.append(part)

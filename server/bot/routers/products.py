@@ -3,7 +3,6 @@ from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from server.services.data_provider import DataProvider
-from ..keyboards import menu_markup
 
 router = Router(name="products")
 provider = DataProvider()
@@ -64,9 +63,9 @@ async def list_products(call: CallbackQuery) -> None:
     for idx, product in enumerate(page_products, start=start + 1):
         part = f"<b>{idx}. {product.name}</b>"
         if product.ingredients:
-            part += f"\nСостав: {product.ingredients}"
+            part += f"\n🍖 Состав: {product.ingredients}"
         if product.expiration_date:
-            part += f"\nСрок годности: {product.expiration_date}"
+            part += f"\n⏳ Срок годности: {product.expiration_date}"
         text_parts.append(part)
 
     builder = InlineKeyboardBuilder()
