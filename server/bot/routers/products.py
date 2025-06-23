@@ -8,6 +8,20 @@ from ..keyboards import menu_markup
 router = Router(name="products")
 provider = DataProvider()
 
+# Mapping of internal category codes to user-friendly Russian names
+CATEGORY_TRANSLATIONS = {
+    "fresh": "Новинки",
+    "sausages": "Сосиски и сардельки",
+    "smoked_meats": "Копчености",
+    "boiled_sausage": "Вареные колбасы",
+    "boiled_sausages": "Вареные колбасы",
+    "cooked-smoked_semi-smoked": "В/К колбасы, полукопченые колбасы",
+    "semi_finished": "Полуфабрикаты",
+    "dumplings": "Пельмени",
+    "other": "Прочие изделия",
+    "raw-smoked_dry-cured": "Сырокопченые, сыровяленые колбасы",
+    "raw-smoked_dry-cyred": "Сырокопченые, сыровяленые колбасы",
+}
 
 @router.callback_query(F.data == "products")
 async def choose_category(call: CallbackQuery) -> None:
@@ -18,7 +32,8 @@ async def choose_category(call: CallbackQuery) -> None:
 
     builder = InlineKeyboardBuilder()
     for cat in categories:
-        builder.button(text=cat, callback_data=f"category:{cat}")
+        text = CATEGORY_TRANSLATIONS.get(cat, cat)
+        builder.button(text=text, callback_data=f"category:{cat}")
     builder.adjust(1)
 
     await call.message.answer(
