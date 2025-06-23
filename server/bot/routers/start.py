@@ -10,7 +10,7 @@ router = Router(name="start")
 @router.message(Command("start", "menu"))
 async def cmd_start(message: Message) -> None:
     await message.answer(
-        "Добро пожаловать! Выберите действие:",
+        "✨ Добро пожаловать!\n📋 Выберите действие:",
         reply_markup=menu_markup,
     )
 
@@ -18,7 +18,7 @@ async def cmd_start(message: Message) -> None:
 @router.callback_query(F.data == "menu")
 async def menu_callback(call: CallbackQuery) -> None:
     await call.message.edit_text(
-        "Добро пожаловать! Выберите действие:",
+        "✨ Добро пожаловать!\n📋 Выберите действие:",
         reply_markup=menu_markup,
     )
     await call.answer()

@@ -10,24 +10,24 @@ provider = DataProvider()
 
 # Mapping of internal category codes to user-friendly Russian names
 CATEGORY_TRANSLATIONS = {
-    "fresh": "Новинки",
-    "sausages": "Сосиски и сардельки",
-    "smoked_meats": "Копчености",
-    "boiled_sausage": "Вареные колбасы",
-    "boiled_sausages": "Вареные колбасы",
-    "cooked-smoked_semi-smoked": "В/К колбасы, полукопченые колбасы",
-    "semi_finished": "Полуфабрикаты",
-    "dumplings": "Пельмени",
-    "other": "Прочие изделия",
-    "raw-smoked_dry-cured": "Сырокопченые, сыровяленые колбасы",
-    "raw-smoked_dry-cyred": "Сырокопченые, сыровяленые колбасы",
+    "fresh": "🆕 Новинки",
+    "sausages": "🌭 Сосиски и сардельки",
+    "smoked_meats": "🍖 Копчености",
+    "boiled_sausage": "🥪 Вареные колбасы",
+    "boiled_sausages": "🥪 Вареные колбасы",
+    "cooked-smoked_semi-smoked": "🥓 В/К колбасы, полукопченые колбасы",
+    "semi_finished": "🍳 Полуфабрикаты",
+    "dumplings": "🥟 Пельмени",
+    "other": "🍲 Прочие изделия",
+    "raw-smoked_dry-cured": "🍢 Сырокопченые, сыровяленые колбасы",
+    "raw-smoked_dry-cyred": "🍢 Сырокопченые, сыровяленые колбасы",
 }
 
 @router.callback_query(F.data == "products")
 async def choose_category(call: CallbackQuery) -> None:
     categories = await provider.list_categories()
     if not categories:
-        await call.answer("Нет данных", show_alert=True)
+        await call.answer("😔 Нет данных", show_alert=True)
         return
 
     builder = InlineKeyboardBuilder()
@@ -37,7 +37,7 @@ async def choose_category(call: CallbackQuery) -> None:
     builder.adjust(1)
 
     await call.message.edit_text(
-        "Выберите категорию:", reply_markup=builder.as_markup()
+        "📂 Выберите категорию:", reply_markup=builder.as_markup()
     )
     await call.answer()
 
@@ -53,7 +53,7 @@ async def list_products(call: CallbackQuery) -> None:
 
     products = await provider.list_products_by_category(category)
     if not products:
-        await call.answer("Нет данных", show_alert=True)
+        await call.answer("😔 Нет данных", show_alert=True)
         return
 
     start = (page - 1) * ITEMS_PER_PAGE
@@ -73,10 +73,10 @@ async def list_products(call: CallbackQuery) -> None:
     show_prev = page > 1
     show_next = end < len(products)
     if show_prev:
-        builder.button(text="⬅️ Предыдущая", callback_data=f"category:{category}:{page - 1}")
+        builder.button(text="⬅️ Назад", callback_data=f"category:{category}:{page - 1}")
     if show_next:
-        builder.button(text="Следующая ➡️", callback_data=f"category:{category}:{page + 1}")
-    builder.button(text="Меню", callback_data="menu")
+        builder.button(text="Вперед ➡️", callback_data=f"category:{category}:{page + 1}")
+    builder.button(text="🏠 Главное Меню", callback_data="menu")
 
     if show_prev and show_next:
         builder.adjust(2, 1)

@@ -8,6 +8,6 @@ router = Router(name="fallback")
 @router.message(F.text)
 async def unknown_message(message: Message) -> None:
     await message.answer(
-        "Извините, не понял сообщение. Используйте /menu для выбора действия.",
+        "😕 Извините, не понял сообщение.\n📋 Используйте /menu для выбора действия.",
         reply_markup=menu_markup,
     )

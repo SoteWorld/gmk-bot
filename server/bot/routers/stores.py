@@ -9,7 +9,7 @@ router = Router(name="stores")
 provider = DataProvider()
 
 location_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Отправить локацию", request_location=True)]],
+    keyboard=[[KeyboardButton(text="📍 Отправить локацию", request_location=True)]],
     resize_keyboard=True,
     one_time_keyboard=True,
 )
@@ -18,7 +18,7 @@ location_keyboard = ReplyKeyboardMarkup(
 @router.callback_query(F.data == "stores")
 async def request_location(call: CallbackQuery) -> None:
     await call.message.answer(
-        "Отправьте свою геолокацию",
+        "📍 Отправьте свою геолокацию",
         reply_markup=location_keyboard,
     )
     await call.answer()
@@ -53,15 +53,15 @@ def build_pagination(lat: float, lon: float, page: int, total: int):
 
     if show_prev:
         builder.button(
-            text="⬅️ Предыдущая",
+            text="⬅️ Назад",
             callback_data=f"stores_page:{lat_str}:{lon_str}:{page - 1}",
         )
     if show_next:
         builder.button(
-            text="Следующая ➡️",
+            text="Вперед ➡️",
             callback_data=f"stores_page:{lat_str}:{lon_str}:{page + 1}",
         )
-    builder.button(text="Меню", callback_data="menu")
+    builder.button(text="🏠 Главное Меню", callback_data="menu")
 
     if show_prev and show_next:
         builder.adjust(2, 1)
@@ -78,7 +78,7 @@ async def show_nearby(message: Message) -> None:
     lon = loc.longitude
     stores = await provider.list_stores_sorted((lat, lon))
     if not stores:
-        await message.answer("Магазины не найдены", reply_markup=menu_markup)
+        await message.answer("😔 Магазины не найдены", reply_markup=menu_markup)
         return
 
     text = build_page_text(stores, 0, ITEMS_PER_PAGE)
@@ -99,7 +99,7 @@ async def paginate_stores(call: CallbackQuery) -> None:
 
     stores = await provider.list_stores_sorted((lat, lon))
     if not stores:
-        await call.answer("Нет данных", show_alert=True)
+        await call.answer("😔 Нет данных", show_alert=True)
         return
 
     start = (page - 1) * ITEMS_PER_PAGE
