@@ -1,20 +1,14 @@
 <template>
-  <div>
-    <nav>
-      <router-link to="/products">Products</router-link> |
-      <router-link to="/stores">Stores</router-link>
-    </nav>
+  <div class="min-h-screen bg-gray-50 max-w-md mx-auto">
+    <Header />
+    <NavigationTabs />
     <router-view />
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Header from './components/Header.vue'
+import NavigationTabs from './components/NavigationTabs.vue'
+</script>
 
-<style scoped>
-nav {
-  margin-bottom: 1rem;
-}
-nav a {
-  margin-right: 0.5rem;
-}
-</style>
+<style scoped></style>
