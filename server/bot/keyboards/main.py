@@ -5,7 +5,7 @@ from server.config_reader import config
 
 # Main menu with all available actions
 menu_builder = InlineKeyboardBuilder()
-menu_builder.button(text="Наши продукты", callback_data="products")
+menu_builder.button(text="🛒 Наши продукты", callback_data="products")
 menu_builder.button(text="📍 Магазины рядом", callback_data="stores")
 menu_builder.button(
     text="🌐 Открыть Mini App", web_app=WebAppInfo(url=config.WEBAPP_URL)

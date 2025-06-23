@@ -65,7 +65,8 @@ class DataProvider:
         """Возвращает все доступные категории продуктов."""
         products = await self.list_products()
         categories = {product.category for product in products if product.category}
-        return sorted(categories)
+        priority = {"fresh": 0, "other": 2}
+        return sorted(categories, key=lambda c: (priority.get(c, 1), c))
 
     async def list_products_by_category(self, category: str) -> List[Product]:
         """Возвращает продукты, принадлежащие указанной категории."""
