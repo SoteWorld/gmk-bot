@@ -38,7 +38,7 @@ def build_page_text(stores, start, end):
         if store.phone:
             part += f"\nТел.: {store.phone}"
         if store.route_url:
-            part += f"\n[Маршрут]({store.route_url})"
+            part += f'\n<a href="{store.route_url}">Проложить Маршрут</a>'
         parts.append(part)
     return "\n\n".join(parts)
 
