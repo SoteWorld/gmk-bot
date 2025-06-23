@@ -9,25 +9,34 @@ Telegram Mini App предоставляет богатый интерактив
 Данные о магазинах и новых продуктах собираются с веб-сайта сети магазинов с помощью парсинга и кэшируются в Redis для быстрого доступа.
 # Архитектура проекта
 
-Проект разделен на несколько взаимосвязанных слоев.
+Проект состоит из двух основных директорий: `server` и `client`.
 
-**Python (бэкенд)**
+**server/** – Python‑бэкенд
 
-- `models` – pydantic модели `Store` и `Product`.
-- `parsers` – асинхронные парсеры `StoreParser` и `ProductParser`.
-- `repositories` – работа с Redis:
+- `api` — HTTP роутеры FastAPI.
+- `bot` — модули Telegram‑бота.
+- `models` – pydantic модели.
+- `parsers` – асинхронные парсеры данных.
+- `repositories` – слой для работы с Redis:
   - `BaseRedisRepository` – низкоуровневый доступ к Redis.
   - `StoreRedisRepository` и `ProductRedisRepository` – CRUD операции для моделей.
   - `RedisRepository` – объединяющий репозиторий.
-- `services` – загрузка данных и вспомогательные функции:
+- `services` – загрузка данных, бизнес-логика и вспомогательные функции:
   - `DataLoader` – сервис, который запускает парсеры и сохраняет результаты в Redis.
   - `DataProvider` – отдаёт данные из Redis и обновляет их при необходимости.
-- `routes` – FastAPI роутеры для HTTP‑API (webhook, продукты, магазины).
+- `main.py` — точка входа приложения.
+
+**client/** – фронтенд на Vue
+
+- `src` — компоненты Mini App.
+- `public` — статические файлы.
+
+Основной поток данных:
 ```
 [parsers] -> DataLoader -> RedisRepository -> Redis
-```
+                           -> DataProvider -> API/бот -> пользователи
 
-Фронтенд представляет собой Telegram Mini App и взаимодействует с API бэкенда.
+```
 
 # Функционал
 Бэкенд (Python)
