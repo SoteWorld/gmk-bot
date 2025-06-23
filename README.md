@@ -70,3 +70,36 @@ Telegram Mini App предоставляет богатый интерактив
     - Telegram Web App API: Для взаимодействия Mini App с Telegram-ботом.
 - Базы данных / Кэш:
     - Redis: In-memory база данных для кэширования спарсенных данных.
+
+
+# Запуск проекта
+
+1. Установите зависимости Python:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Создайте файл `.env` в директории `server` со значениями переменных:
+
+```env
+BOT_TOKEN=<ваш_токен>
+WEBAPP_URL=http://localhost:5173
+WEBHOOK_URL=http://localhost:8080
+```
+
+3. Запустите Redis и сервер:
+
+```bash
+python server/main.py
+```
+
+4. Отдельно запустите клиент:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Мини-приложение будет доступно по адресу, указанному в `WEBAPP_URL`.
