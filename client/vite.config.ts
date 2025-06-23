@@ -26,7 +26,7 @@ export default defineConfig({
       },
     },
     allowedHosts: [
-        "0674658f84fef5b96dcbb9c757831383.serveo.net",
+        "4fd9-190-2-153-227.ngrok-free.app",
       ]
   },
 })
