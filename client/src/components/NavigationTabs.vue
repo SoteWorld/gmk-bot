@@ -1,19 +1,11 @@
 <template>
-  <div class="flex bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-    <router-link
-      to="/products"
-      class="flex-1 flex items-center justify-center space-x-1 py-3 px-2 text-sm font-medium transition-colors"
-      :class="isProducts ? 'text-red-600 border-b-2 border-red-600 bg-red-50' : 'text-gray-600 hover:text-red-600 hover:bg-gray-50'"
-    >
-      <PackageIcon class="h-4 w-4" />
+  <div class="nav-tabs">
+    <router-link to="/products" class="nav-tab" :class="isProducts ? 'tab-active' : 'tab-inactive'">
+      <PackageIcon class="tab-icon" />
       <span>Новые продукты</span>
     </router-link>
-    <router-link
-      to="/stores"
-      class="flex-1 flex items-center justify-center space-x-1 py-3 px-2 text-sm font-medium transition-colors"
-      :class="isStores ? 'text-red-600 border-b-2 border-red-600 bg-red-50' : 'text-gray-600 hover:text-red-600 hover:bg-gray-50'"
-    >
-      <MapPin class="h-4 w-4" />
+    <router-link to="/stores" class="nav-tab" :class="isStores ? 'tab-active' : 'tab-inactive'">
+      <MapPin class="tab-icon" />
       <span>Ближайшие магазины</span>
     </router-link>
   </div>
@@ -29,4 +21,49 @@ const isProducts = computed(() => route.path === '/products')
 const isStores = computed(() => route.path === '/stores')
 </script>
 
-<style scoped></style>
+<style scoped>
+.nav-tabs {
+  display: flex;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.tab-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tab-active {
+  color: #dc2626;
+  border-bottom-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.tab-inactive {
+  color: #4b5563;
+}
+
+.tab-inactive:hover {
+  color: #dc2626;
+  background-color: #f9fafb;
+}
+</style>
