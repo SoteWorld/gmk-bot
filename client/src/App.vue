@@ -50,6 +50,7 @@ body {
   background-color: var(--tg-bg-color);
   color: var(--tg-text-color);
   overflow-x: hidden;
+  overflow-y: scroll; /* keep vertical scrollbar space reserved */
   scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears */
 }
 
@@ -123,6 +124,7 @@ html,
 body {
   overflow-x: hidden;
   width: 100%;
+  overflow-y: scroll; /* always show vertical scrollbar */
   scrollbar-gutter: stable; /* keep scrollbar space reserved */
 }
 
