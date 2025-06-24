@@ -34,7 +34,7 @@ class ProductParser(BaseParser):
         for p in item.find_all("p"):
             if "Срок годности:" in p.get_text():
                 span = p.find("span")
-                return span.get_text(strip=True) if span else None
+                return span.get_text(strip=True).lower().capitalize() if span else None
         return None
 
     @classmethod
@@ -43,7 +43,7 @@ class ProductParser(BaseParser):
         for p in item.find_all("p"):
             if "Состав:" in p.get_text():
                 span = p.find("span")
-                return span.get_text(strip=True) if span else None
+                return span.get_text(strip=True).lower().capitalize() if span else None
         return None
 
     @classmethod
