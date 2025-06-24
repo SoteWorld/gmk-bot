@@ -26,7 +26,7 @@ export default defineConfig({
       },
     },
     allowedHosts: [
-        "7c87e034824c77.lhr.life",
+        "94381b3b31bf2c.lhr.life",
       ]
   },
 })
