@@ -1,23 +1,23 @@
 <template>
-  <div class="p-3">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-lg font-bold text-gray-900">{{ location ? 'Ближайшие магазины' : 'Все магазины' }}</h2>
-      <button @click="loadStores" class="flex items-center space-x-1 text-red-600 hover:text-red-700 transition-colors text-sm">
-        <RefreshCw :class="['h-3 w-3', loading ? 'animate-spin' : '']" />
+  <div class="stores-view">
+    <div class="stores-header">
+      <h2 class="stores-title">{{ location ? 'Ближайшие магазины' : 'Все магазины' }}</h2>
+      <button @click="loadStores" class="refresh-button">
+        <RefreshCw :class="['refresh-icon', loading ? 'spin' : '']" />
         <span>Обновить</span>
       </button>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-8">
-      <Loader2 class="h-6 w-6 text-red-600 animate-spin" />
+    <div v-if="loading" class="loading-container">
+      <Loader2 class="loader-icon" />
     </div>
 
     <div v-else>
-      <div class="mb-4">
+      <div class="map-container">
         <StoreMap :stores="stores" :userLocation="location" :selectedStore="selectedStore" />
       </div>
-      <div v-if="stores.length === 0" class="text-center text-gray-600">Магазины не найдены</div>
-      <div class="grid grid-cols-1 gap-3">
+      <div v-if="stores.length === 0" class="empty-text">Магазины не найдены</div>
+      <div class="stores-grid">
         <StoreCard
           v-for="s in stores"
           :key="s.id"
@@ -26,7 +26,7 @@
           :onShowRoute="location ? showRoute : undefined"
         />
       </div>
-      <p v-if="error" class="text-red-600 mt-2 text-sm">{{ error }}</p>
+      <p v-if="error" class="error-text">{{ error }}</p>
     </div>
   </div>
 </template>
@@ -38,7 +38,6 @@ import { fetchNearbyStores } from '../api'
 import type { StoreWithDistance as Store } from '../api'
 import StoreCard from './StoreCard.vue'
 import StoreMap from './StoreMap.vue'
-
 
 const stores = ref<Store[]>([])
 const loading = ref(false)
@@ -80,4 +79,83 @@ function showRoute(store: Store) {
 onMounted(loadStores)
 </script>
 
-<style scoped></style>
+<style scoped>
+.stores-view {
+  padding: 0.75rem;
+}
+
+.stores-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stores-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827; /* gray-900 */
+}
+
+.refresh-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #dc2626; /* red-600 */
+  font-size: 0.875rem;
+  transition: color 0.3s;
+}
+
+.refresh-button:hover {
+  color: #b91c1c; /* red-700 */
+}
+
+.refresh-icon {
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.loader-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #dc2626; /* red-600 */
+  animation: spin 1s linear infinite;
+}
+
+.map-container {
+  margin-bottom: 1rem;
+}
+
+.empty-text {
+  text-align: center;
+  color: #4b5563; /* gray-600 */
+}
+
+.stores-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.error-text {
+  color: #dc2626; /* red-600 */
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
