@@ -50,6 +50,7 @@ body {
   background-color: var(--tg-bg-color);
   color: var(--tg-text-color);
   overflow-x: hidden;
+  scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears */
 }
 
 /* Mobile-first design */
@@ -122,6 +123,7 @@ html,
 body {
   overflow-x: hidden;
   width: 100%;
+  scrollbar-gutter: stable; /* keep scrollbar space reserved */
 }
 
 /* Optimize for touch devices */
