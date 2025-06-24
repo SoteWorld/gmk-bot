@@ -4,7 +4,6 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -17,16 +16,14 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // '/api': 'http://localhost:8000',
       '/api': {
         target: 'http://localhost:8080', // Адрес вашего API-сервера
         changeOrigin: true, // Перезаписывает заголовок Origin
         secure: false, // Если сервер работает через HTTPS с самоподписанным сертификатом
-        //rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
     allowedHosts: [
-        "94381b3b31bf2c.lhr.life",
+        "intractably-wealthy-squeaker.cloudpub.ru",
       ]
   },
 })
