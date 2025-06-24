@@ -115,6 +115,7 @@ img {
 /* Telegram Mini App specific styles */
 .tg-viewport {
   height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  overflow-y: scroll; /* Keep scrollbar over content to avoid layout shift */
 }
 
 /* Prevent horizontal scroll */
