@@ -12,7 +12,7 @@
       <h3 class="product-card-name">{{ product.name }}</h3>
       <div v-if="product.expiration_date" class="product-card-expiration">
         <Calendar class="product-card-expiration-icon" />
-        <span class="product-card-expiration-text">Срок: {{ formatDate(product.expiration_date) }}</span>
+        <span class="product-card-expiration-text">Срок годности: {{ product.expiration_date}}</span>
       </div>
       <div v-if="product.ingredients" class="product-card-ingredients">
         <List class="product-card-ingredients-icon" />
@@ -32,11 +32,6 @@ const placeholder = 'https://images.pexels.com/photos/2611937/pexels-photo-26119
 function onError(e: Event) {
   const target = e.target as HTMLImageElement
   target.src = placeholder
-}
-
-function formatDate(dateStr: string) {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('ru-RU')
 }
 </script>
 

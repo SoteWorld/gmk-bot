@@ -16,8 +16,7 @@ import { Beef } from 'lucide-vue-next'
 
 <style scoped>
 .header {
-  background-color: #b91c1c; /* red-700 */
-  color: white;
+  background-image: linear-gradient(to right, #dc2626, #b91c1c);  color: white;
   padding: 1rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
@@ -34,22 +33,15 @@ import { Beef } from 'lucide-vue-next'
 }
 
 .header-title {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .header-subtitle {
   color: #fee2e2;
-  font-size: 0.75rem;
-}
+  font-size: 0.9rem;
+  text-align: center;
 
-.header-title {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.header-subtitle {
-  color: #fee2e2;
-  font-size: 0.75rem;
 }
 </style>
