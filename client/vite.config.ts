@@ -26,7 +26,7 @@ export default defineConfig({
       },
     },
     allowedHosts: [
-        "4fd9-190-2-153-227.ngrok-free.app",
+        "7c87e034824c77.lhr.life",
       ]
   },
 })
