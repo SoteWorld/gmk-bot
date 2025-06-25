@@ -104,6 +104,8 @@ onMounted(loadStores)
   color: #dc2626; /* red-600 */
   font-size: 0.875rem;
   transition: color 0.3s;
+  background: transparent;
+  border: none;
 }
 
 .refresh-button:hover {

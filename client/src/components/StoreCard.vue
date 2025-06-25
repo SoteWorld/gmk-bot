@@ -71,7 +71,7 @@ function handlePhoneClick() {
   font-weight: 600;
   font-size: 1rem;
   color: #111827;
-  flex: 1 1 0%;
+  flex: 1 1 0;
   line-height: 1.25;
 }
 
@@ -135,6 +135,8 @@ function handlePhoneClick() {
   color: #dc2626;
   text-decoration: underline;
   transition: color 0.2s;
+  background: transparent;
+  border: none;
 }
 
 .store-card-phone-text:hover {

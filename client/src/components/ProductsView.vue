@@ -111,6 +111,8 @@ onMounted(loadCategories)
   color: #dc2626;
   font-size: 0.875rem;
   transition: color 0.2s;
+  background: transparent;
+  border: none;
 }
 
 .refresh-button:hover {
