@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import Optional, Tuple
 
-from geopy import ArcGIS
+from geopy.geocoders import ArcGIS
+from geopy.adapters import AioHTTPAdapter
 from geopy.distance import geodesic
 
 from server.constants import GEOCODER_TIMEOUT
@@ -11,14 +12,18 @@ class Geocoder:
     """Простой асинхронный геокодер с использованием Nominatim."""
 
     def __init__(self) -> None:
-        self._geocoder = ArcGIS()
+        # Use an asynchronous adapter to avoid blocking calls
+        self._geocoder = ArcGIS(
+            timeout=GEOCODER_TIMEOUT, adapter_factory=AioHTTPAdapter
+        )
 
     async def geocode(self, query: str) -> Tuple[Optional[float], Optional[float]]:
-        """Возвращает координаты места по текстовому адресу"""
+        """Возвращает координаты места по текстовому адресу."""
         try:
             query = "Беларусь, " + query
             query = query.replace("г.", "город")
-            location = self._geocoder.geocode(query=query, timeout=GEOCODER_TIMEOUT)
+            async with self._geocoder as geocoder:
+                location = await geocoder.geocode(query=query)
         except Exception:
             return None, None
 

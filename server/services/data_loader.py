@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import List, Optional
+import asyncio
 
 from server.parsers import ProductParser, StoreParser
 from server.models import Product, Store
@@ -35,8 +36,9 @@ class DataLoader:
         stores = await self.store_parser.parse()
         if not stores:
             return []
-        for store in stores:
-            await self.repository.add_store(store, ttl=ttl)
+        await asyncio.gather(
+            *(self.repository.add_store(store, ttl=ttl) for store in stores)
+        )
         return stores
 
     async def reload_all(self, ttl: int | None = REDIS_JSON_TTL) -> None:
