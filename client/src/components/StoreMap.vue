@@ -1,5 +1,5 @@
 <template>
-    <div ref="mapRef" class="store-map" />
+  <div ref="mapRef" class="store-map" />
 </template>
 
 <script setup lang="ts">
@@ -31,9 +31,7 @@ function updateMarkers() {
     if (layer instanceof L.Marker) map!.removeLayer(layer)
   })
 
-  const validStores = props.stores.filter(
-    (s) => s.latitude != null && s.longitude != null,
-  )
+  const validStores = props.stores.filter((s) => s.latitude != null && s.longitude != null)
 
   if (props.userLocation) {
     const userIcon = L.divIcon({
@@ -94,7 +92,7 @@ function updateMarkers() {
             </div>` : ''}
           </div>
           ${store.route_url ? `<a href="${store.route_url}" target="_blank" class="popup-route-button">
-            <svg class="popup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="popup-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="3 11 22 2 13 21 11 13 3 11" />
             </svg>
             <span>Построить маршрут</span>
@@ -195,7 +193,6 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
   background-color: white;
 }
 
-
 .popup-details {
   display: flex;
   flex-direction: column;
@@ -235,12 +232,18 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
   justify-content: center;
   gap: 0.25rem;
   background-color: #dc2626;
-  color: white;
+  color: #ffffff !important;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   transition: background-color 0.2s;
 }
+
+.popup-route-button svg {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
 
 .popup-route-button:hover {
   background-color: #b91c1c;
