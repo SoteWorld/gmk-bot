@@ -65,15 +65,12 @@ a {
   transition-duration: 150ms;
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Custom scrollbar - thumb only */
 ::-webkit-scrollbar {
   width: 4px;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track-piece {
   background: transparent;
 }
@@ -85,6 +82,11 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8f8f8f;
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #b1b1b1 transparent;
 }
 
 /* Image loading placeholder */
