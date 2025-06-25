@@ -54,6 +54,18 @@ async function loadStores() {
     error.value = 'Геолокация не поддерживается.'
     return
   }
+    try {
+    const perm = await navigator.permissions
+      ?.query({ name: 'geolocation' as PermissionName })
+      .catch(() => null)
+    if (perm && perm.state === 'denied') {
+      error.value =
+        'Геопозиция отключена. Пожалуйста, включите доступ к местоположению.'
+      return
+    }
+  } catch {
+    /* ignore */
+  }
   loading.value = true
   error.value = ''
   navigator.geolocation.getCurrentPosition(
@@ -69,10 +81,19 @@ async function loadStores() {
         loading.value = false
       }
     },
-    () => {
-      error.value = 'Невозможно получить местоположение'
+    (err) => {
+      if (
+        err.code === err.PERMISSION_DENIED ||
+        err.code === err.TIMEOUT
+      ) {
+        error.value =
+          'Геопозиция отключена. Пожалуйста, включите доступ к местоположению.'
+      } else {
+        error.value = 'Невозможно получить местоположение'
+      }
       loading.value = false
     },
+      { timeout: 30000 },
   )
 }
 
