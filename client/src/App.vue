@@ -7,28 +7,19 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted } from 'vue'
 import Header from './components/Header.vue'
 import NavigationTabs from './components/NavigationTabs.vue'
 
-// Telegram Mini App theme integration
-const tg = (window as any).Telegram?.WebApp
-
+// Force light theme regardless of Telegram settings
 function applyTheme() {
-  if (!tg) return
-  const params = tg.themeParams || {}
   const root = document.documentElement
-  root.style.setProperty('--tg-bg-color', params.bg_color ?? '#ffffff')
-  root.style.setProperty('--tg-text-color', params.text_color ?? '#000000')
+  root.style.setProperty('--tg-bg-color', '#ffffff')
+  root.style.setProperty('--tg-text-color', '#000000')
 }
 
 onMounted(() => {
   applyTheme()
-  tg?.onEvent('themeChanged', applyTheme)
-})
-
-onUnmounted(() => {
-  tg?.offEvent('themeChanged', applyTheme)
 })
 </script>
 
