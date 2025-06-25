@@ -75,12 +75,12 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #dc2626;
+  background: #b1b1b1;
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b91c1c;
+  background: #8f8f8f;
 }
 
 /* Image loading placeholder */

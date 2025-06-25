@@ -41,7 +41,9 @@ const isStores = computed(() => route.path === '/stores')
   padding: 0.75rem 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
+  text-align: center;
   border-bottom: 2px solid transparent;
+  text-decoration: none;
   transition:
     color 0.2s,
     background-color 0.2s;
