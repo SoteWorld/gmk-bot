@@ -63,7 +63,7 @@ function handlePhoneClick() {
 .store-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 
@@ -73,6 +73,8 @@ function handlePhoneClick() {
   color: #111827;
   flex: 1 1 0;
   line-height: 1.25;
+  margin-block-start: 0.1rem;
+  margin-block-end: 0.1rem;
 }
 
 .store-card-distance {
