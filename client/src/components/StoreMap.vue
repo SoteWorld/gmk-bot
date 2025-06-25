@@ -166,13 +166,13 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
 
 .store-marker-dot-inner {
   position: absolute;
-  top: 0.25rem;
-  left: 0.25rem;
+  top: 50%;
+  left: 50%;
   width: 0.375rem; /* w-1.5 */
   height: 0.375rem; /* h-1.5 */
   background-color: #ffffff;
   border-radius: 50%;
-  transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .user-location-marker {
