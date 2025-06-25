@@ -10,6 +10,7 @@
 
     <div v-if="loading" class="loading-container">
       <Loader2 class="loader-icon" />
+      <span class="loading-text">Данные загружаются... Обычно это длится не более 30 секунд. Ожидайте!</span>
     </div>
 
     <div v-else>
@@ -135,6 +136,13 @@ onMounted(loadStores)
   width: 1.5rem;
   color: #dc2626; /* red-600 */
   animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  margin-left: 0.5rem;
+  color: #4b5563; /* gray-600 */
+  display: flex;
+  align-items: center;
 }
 
 .map-container {

@@ -22,6 +22,7 @@
 
     <div v-if="loading" class="loading-container">
       <Loader2 class="loading-icon" />
+      <span class="loading-text">Данные загружаются... Обычно это длится не более 30 секунд. Ожидайте!</span>
     </div>
 
     <div v-else>
@@ -179,6 +180,14 @@ onMounted(loadCategories)
   color: #dc2626;
   animation: spin 1s linear infinite;
 }
+
+.loading-text {
+  margin-left: 0.5rem;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+}
+
 
 .empty-message {
   text-align: center;
