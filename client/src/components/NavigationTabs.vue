@@ -29,7 +29,7 @@ const isStores = computed(() => route.path === '/stores')
   border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 1001;
 }
 
 .nav-tab {
