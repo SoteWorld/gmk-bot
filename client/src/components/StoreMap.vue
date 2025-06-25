@@ -95,7 +95,7 @@ onMounted(() => {
 watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarkers, { deep: true })
 </script>
 
-<style scoped>
+<style>
 .store-map {
   width: 100%;
   height: 12rem; /* 48 */
