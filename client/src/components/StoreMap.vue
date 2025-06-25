@@ -63,7 +63,13 @@ function updateMarkers() {
         <div class="p-2 min-w-[200px]">
           <div class="flex justify-between items-center mb-1">
             <h3 class="font-semibold text-sm">${store.name}</h3>
-            ${props.userLocation ? `<span class="text-xs font-medium text-red-600">${store.distance.toFixed(1)} км</span>` : ''}
+            ${props.userLocation ? `<div class="popup-distance">
+              <svg class="popup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>${store.distance.toFixed(1)} км</span>
+            </div>` : ''}
           </div>
           <div class="popup-details">
             <div class="popup-line address">
@@ -87,7 +93,7 @@ function updateMarkers() {
               <a href="tel:${store.phone}" class="text-xs text-red-600 underline">${store.phone}</a>
             </div>` : ''}
           </div>
-          ${store.route_url ? `<a href="${store.route_url}" target="_blank" class="popup-route">
+          ${store.route_url ? `<a href="${store.route_url}" target="_blank" class="popup-route-button">
             <svg class="popup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="3 11 22 2 13 21 11 13 3 11" />
             </svg>
@@ -214,12 +220,29 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
   flex-shrink: 0;
 }
 
-.popup-route {
+.popup-distance {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   color: #dc2626;
-  text-decoration: underline;
+  font-weight: 500;
   font-size: 0.75rem;
+}
+
+.popup-route-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background-color: #dc2626;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.popup-route-button:hover {
+  background-color: #b91c1c;
 }
 </style>
