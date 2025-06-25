@@ -93,7 +93,7 @@ async function loadStores() {
       }
       loading.value = false
     },
-      { timeout: 30000 },
+      { timeout: 30000, maximumAge: 30000},
   )
 }
 
