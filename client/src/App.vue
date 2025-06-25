@@ -71,7 +71,11 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
