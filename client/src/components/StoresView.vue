@@ -57,7 +57,8 @@ async function loadStores() {
       try {
         const { latitude, longitude } = pos.coords
         location.value = { latitude, longitude }
-        stores.value = await fetchNearbyStores(latitude, longitude)
+        // Запрашиваем все магазины, чтобы показать их на карте
+        stores.value = await fetchNearbyStores(latitude, longitude, 1000)
       } catch (e) {
         error.value = 'Не удалось загрузить список магазинов'
       } finally {

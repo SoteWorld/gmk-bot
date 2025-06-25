@@ -103,8 +103,12 @@ function updateMarkers() {
       .addTo(map!)
   })
   const group = new L.FeatureGroup()
-  validStores.forEach((store) => {
-    group.addLayer(L.marker([store.latitude!, store.longitude!]))
+  // Для начального масштаба используем только пять ближайших магазинов,
+  // но маркеры рисуем для всех
+  validStores.forEach((store, index) => {
+    if (index < 5) {
+      group.addLayer(L.marker([store.latitude!, store.longitude!]))
+    }
   })
   if (props.userLocation) {
     group.addLayer(L.marker([props.userLocation.latitude, props.userLocation.longitude]))
