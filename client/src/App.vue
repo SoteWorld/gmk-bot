@@ -41,6 +41,7 @@ body {
   background-color: var(--tg-bg-color);
   color: var(--tg-text-color);
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 /* Mobile-first design */
@@ -66,28 +67,15 @@ a {
 }
 
 /* Custom scrollbar - thumb only */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
-
 ::-webkit-scrollbar-thumb {
   background: #b1b1b1;
-  border-radius: 2px;
+
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8f8f8f;
 }
 
-body {
-  scrollbar-width: thin;
-  scrollbar-color: #b1b1b1 transparent;
-}
 
 /* Image loading placeholder */
 img {
@@ -113,6 +101,9 @@ img {
 .tg-viewport {
   height: 100dvh; /* Dynamic viewport height for mobile browsers */
   overflow-y: scroll; /* Keep scrollbar over content to avoid layout shift */
+}
+.tg-viewport::-webkit-scrollbar {
+  display: none;
 }
 
 /* Prevent horizontal scroll */
