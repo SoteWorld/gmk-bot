@@ -36,6 +36,16 @@ class BaseRedisRepository:
         data = await self._redis.get(key)
         return json.loads(data) if data else None
 
+    async def _mget_json(self, keys: List[str]) -> List[Optional[Any]]:
+        """Возвращает список объектов по списку ключей."""
+        if not keys:
+            return []
+        values = await self._redis.mget(keys)
+        result: List[Optional[Any]] = []
+        for value in values:
+            result.append(json.loads(value) if value else None)
+        return result
+
     async def _delete(self, key: str) -> None:
         await self._redis.delete(key)
 

@@ -37,9 +37,9 @@ class StoreRedisRepository(BaseRedisRepository):
 
     async def list_stores(self) -> List[Store]:
         keys = await self._scan_keys("store:*")
+        data_list = await self._mget_json(keys)
         stores: List[Store] = []
-        for key in keys:
-            data = await self._get_json(key)
+        for data in data_list:
             if data:
                 stores.append(Store.model_validate(data))
         return stores
