@@ -53,7 +53,7 @@ function updateMarkers() {
               </div>`,
       className: 'store-marker',
       iconSize: [20, 20],
-      iconAnchor: [10, 10],
+      iconAnchor: [10, 20],
     })
     L.marker([store.latitude!, store.longitude!], { icon: storeIcon })
       .bindPopup(
@@ -148,17 +148,16 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
 }
 
 .store-marker-dot {
+  position: relative;
   background-color: #ef4444; /* red-500 */
-  border-radius: 0.25rem; /* square with slight rounding */
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
   width: 1.25rem; /* w-5 */
   height: 1.25rem; /* h-5 */
   border: 2px solid #ffffff;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .store-marker-selected {
@@ -166,11 +165,14 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
 }
 
 .store-marker-dot-inner {
-  background-color: #ffffff;
-  border-radius: 0.25rem; /* square with slight rounding */
-  transform: rotate(-45deg);
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
   width: 0.375rem; /* w-1.5 */
   height: 0.375rem; /* h-1.5 */
+  background-color: #ffffff;
+  border-radius: 50%;
+  transform: rotate(45deg);
 }
 
 .user-location-marker {
