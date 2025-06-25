@@ -65,10 +65,34 @@ function updateMarkers() {
             <h3 class="font-semibold text-sm">${store.name}</h3>
             ${props.userLocation ? `<span class="text-xs font-medium text-red-600">${store.distance.toFixed(1)} км</span>` : ''}
           </div>
-          <p class="text-xs text-gray-600 mb-1">${store.address}</p>
-          ${store.opening_hours ? `<p class="text-xs text-gray-600 mb-1">${store.opening_hours}</p>` : ''}
-          ${store.phone ? `<a href="tel:${store.phone}" class="text-xs text-red-600 underline mb-1">${store.phone}</a>` : ''}
-          ${store.route_url ? `<a href="${store.route_url}" target="_blank" class="text-xs text-red-600 underline">Построить маршрут</a>` : ''}
+          <div class="popup-details">
+            <div class="popup-line address">
+              <svg class="popup-icon mt-[2px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span class="text-xs">${store.address}</span>
+            </div>
+            ${store.opening_hours ? `<div class="popup-line">
+              <svg class="popup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span class="text-xs">${store.opening_hours}</span>
+            </div>` : ''}
+            ${store.phone ? `<div class="popup-line">
+              <svg class="popup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+              </svg>
+              <a href="tel:${store.phone}" class="text-xs text-red-600 underline">${store.phone}</a>
+            </div>` : ''}
+          </div>
+          ${store.route_url ? `<a href="${store.route_url}" target="_blank" class="popup-route">
+            <svg class="popup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11" />
+            </svg>
+            <span>Построить маршрут</span>
+          </a>` : ''}
         </div>
       `
       )
@@ -163,5 +187,39 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
 
 .leaflet-popup-tip {
   background-color: white;
+}
+
+
+.popup-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.popup-line {
+  display: flex;
+  gap: 0.25rem;
+  color: #4b5563;
+  align-items: center;
+}
+
+.popup-line.address {
+  align-items: flex-start;
+}
+
+.popup-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.popup-route {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #dc2626;
+  text-decoration: underline;
+  font-size: 0.75rem;
 }
 </style>
