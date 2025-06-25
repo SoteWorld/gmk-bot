@@ -47,6 +47,9 @@ class StoreRedisRepository(BaseRedisRepository):
     @classmethod
     async def _update_geocode_store(cls, store: Store) -> Store:
         """Обновляет координаты магазина."""
+        if store.latitude is not None and store.longitude is not None:
+            return store
+
         geocoder = Geocoder()
         latitude, longitude = await geocoder.geocode(store.address)
         store.latitude = latitude

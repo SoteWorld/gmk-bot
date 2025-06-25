@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 from geopy.geocoders import ArcGIS
 from geopy.adapters import AioHTTPAdapter
@@ -11,25 +11,40 @@ from server.constants import GEOCODER_TIMEOUT
 class Geocoder:
     """Простой асинхронный геокодер с использованием Nominatim."""
 
+    _cache: Dict[str, Tuple[Optional[float], Optional[float]]] = {}
+
     def __init__(self) -> None:
         # Use an asynchronous adapter to avoid blocking calls
         self._geocoder = ArcGIS(
             timeout=GEOCODER_TIMEOUT, adapter_factory=AioHTTPAdapter
         )
 
+    async def __aenter__(self) -> "Geocoder":
+        await self._geocoder.__aenter__()
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb) -> None:
+        await self._geocoder.__aexit__(exc_type, exc, tb)
+
     async def geocode(self, query: str) -> Tuple[Optional[float], Optional[float]]:
         """Возвращает координаты места по текстовому адресу."""
         try:
             query = "Беларусь, " + query
             query = query.replace("г.", "город")
-            async with self._geocoder as geocoder:
-                location = await geocoder.geocode(query=query)
+            if query in self._cache:
+                return self._cache[query]
+
+            location = await self._geocoder.geocode(query=query)
         except Exception:
             return None, None
 
         if location:
-            return location.latitude, location.longitude
-        return None, None
+            coords = (location.latitude, location.longitude)
+        else:
+            coords = (None, None)
+
+        self._cache[query] = coords
+        return coords
 
     @staticmethod
     def distance(

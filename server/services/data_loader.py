@@ -7,6 +7,7 @@ from server.parsers import ProductParser, StoreParser
 from server.models import Product, Store
 from server.repositories import RedisRepository
 from server.constants import PRODUCT_TTL, STORE_TTL, REDIS_JSON_TTL
+from .geocoder import Geocoder
 
 
 class DataLoader:
@@ -36,9 +37,16 @@ class DataLoader:
         stores = await self.store_parser.parse()
         if not stores:
             return []
-        await asyncio.gather(
-            *(self.repository.add_store(store, ttl=ttl) for store in stores)
-        )
+
+        async with Geocoder() as geocoder:
+            async def geocode_store(store: Store) -> None:
+                latitude, longitude = await geocoder.geocode(store.address)
+                store.latitude = latitude
+                store.longitude = longitude
+
+            await asyncio.gather(*(geocode_store(store) for store in stores))
+
+        await asyncio.gather(*(self.repository.add_store(store, ttl=ttl) for store in stores))
         return stores
 
     async def reload_all(self, ttl: int | None = REDIS_JSON_TTL) -> None:
