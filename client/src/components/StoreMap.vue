@@ -61,10 +61,14 @@ function updateMarkers() {
       .bindPopup(
         `
         <div class="p-2 min-w-[200px]">
-          <h3 class="font-semibold text-sm mb-1">${store.name}</h3>
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="font-semibold text-sm">${store.name}</h3>
+            ${props.userLocation ? `<span class="text-xs font-medium text-red-600">${store.distance.toFixed(1)} км</span>` : ''}
+          </div>
           <p class="text-xs text-gray-600 mb-1">${store.address}</p>
-          <p class="text-xs text-gray-600 mb-1">${store.opening_hours ?? ''}</p>
-          ${props.userLocation ? `<p class="text-xs font-medium text-red-600">${store.distance.toFixed(1)} км</p>` : ''}
+          ${store.opening_hours ? `<p class="text-xs text-gray-600 mb-1">${store.opening_hours}</p>` : ''}
+          ${store.phone ? `<a href="tel:${store.phone}" class="text-xs text-red-600 underline mb-1">${store.phone}</a>` : ''}
+          ${store.route_url ? `<a href="${store.route_url}" target="_blank" class="text-xs text-red-600 underline">Построить маршрут</a>` : ''}
         </div>
       `
       )
