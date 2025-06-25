@@ -27,7 +27,7 @@ class DataProvider:
         """Возвращает все магазины, отсортированные по расстоянию к пользователю."""
         stores = await self.repository.list_stores()
         if not stores:
-            await self.data_loader.reload_stores(clear=False)
+            await self.data_loader.reload_stores(clear=True)
             stores = await self.repository.list_stores()
         if not stores:
             return []
