@@ -36,12 +36,16 @@ import { Beef } from 'lucide-vue-next'
   font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
+  //margin-block-start: 0;
+  //margin-block-end: 0;
 }
 
 .header-subtitle {
   color: #fee2e2;
   font-size: 0.9rem;
   text-align: center;
+  //margin-block-start: 0;
+  //margin-block-end: 0;
 
 }
 </style>

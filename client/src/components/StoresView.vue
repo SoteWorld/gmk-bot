@@ -95,6 +95,8 @@ onMounted(loadStores)
   font-size: 1.125rem;
   font-weight: 700;
   color: #111827; /* gray-900 */
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .refresh-button {

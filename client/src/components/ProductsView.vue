@@ -51,7 +51,6 @@ const categoryNames: Record<string, string> = {
   dumplings: 'Пельмени',
   other: 'Прочие изделия',
   'raw-smoked_dry-cured': 'Сырокопченые, сыровяленые колбасы',
-  'raw-smoked_dry-cyred': 'Сырокопченые, сыровяленые колбасы',
 }
 
 const categories = ref<string[]>([])
@@ -102,6 +101,8 @@ onMounted(loadCategories)
   font-size: 1.125rem;
   font-weight: 700;
   color: #111827;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .refresh-button {
@@ -129,6 +130,12 @@ onMounted(loadCategories)
   overflow-x: auto;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+}
+
+.categories-list::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome, Safari, Opera */
 }
 
 .category-button {
