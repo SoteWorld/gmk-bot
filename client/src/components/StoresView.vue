@@ -10,7 +10,10 @@
 
     <div v-if="loading" class="loading-container">
       <Loader2 class="loader-icon" />
-      <span class="loading-text">Данные загружаются... Обычно это длится не более 30 секунд. Ожидайте!</span>
+      <span class="loading-text">
+        <span>Данные загружаются...</span>
+        <span>Обычно это длится не более 30 секунд. Ожидайте!</span>
+      </span>
     </div>
 
     <div v-else>
@@ -127,6 +130,8 @@ onMounted(loadStores)
 
 .loading-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   padding: 2rem 0;
 }
@@ -139,9 +144,11 @@ onMounted(loadStores)
 }
 
 .loading-text {
-  margin-left: 0.5rem;
+  margin-top: 0.5rem;
   color: #4b5563; /* gray-600 */
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
