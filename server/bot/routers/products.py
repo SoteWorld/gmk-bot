@@ -3,6 +3,7 @@ from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from server.services.data_provider import DataProvider
+from server.constants import ITEMS_PER_PAGE
 
 router = Router(name="products")
 provider = DataProvider()
@@ -42,7 +43,6 @@ async def choose_category(call: CallbackQuery) -> None:
     await call.answer()
 
 
-ITEMS_PER_PAGE = 5
 
 
 @router.callback_query(F.data.startswith("category:"))

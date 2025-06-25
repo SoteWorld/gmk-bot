@@ -5,6 +5,8 @@ from typing import Optional, Tuple
 from geopy import ArcGIS
 from geopy.distance import geodesic
 
+from server.constants import GEOCODER_TIMEOUT
+
 class Geocoder:
     """Простой асинхронный геокодер с использованием Nominatim."""
 
@@ -16,7 +18,7 @@ class Geocoder:
         try:
             query = "Беларусь, " + query
             query = query.replace("г.", "город")
-            location = self._geocoder.geocode(query=query, timeout=120)
+            location = self._geocoder.geocode(query=query, timeout=GEOCODER_TIMEOUT)
         except Exception:
             return None, None
 

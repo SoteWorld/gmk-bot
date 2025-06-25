@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 
 from server.models import Store
+from server.constants import STORE_TTL
 
 from server.services.geocoder import Geocoder
 from .base_redis_repository import BaseRedisRepository
@@ -11,7 +12,7 @@ from .base_redis_repository import BaseRedisRepository
 class StoreRedisRepository(BaseRedisRepository):
     """CRUD-операции для моделей Store в Redis."""
 
-    async def add_store(self, store: Store, ttl: int | None = 1800) -> None:
+    async def add_store(self, store: Store, ttl: int | None = STORE_TTL) -> None:
         await self._update_geocode_store(store)
         await self._set_json(f"store:{store.id}", store.model_dump(), ttl)
 

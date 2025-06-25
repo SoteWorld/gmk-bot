@@ -6,6 +6,8 @@ from fastapi import APIRouter, Depends, Query
 
 from server.models import StoreWithDistance
 from server.services.data_provider import DataProvider
+from server.constants import NEARBY_STORES_DEFAULT_LIMIT
+
 
 from .dependencies import get_data_provider
 
@@ -16,7 +18,7 @@ router = APIRouter(prefix="/stores", tags=["stores"])
 async def list_nearby_stores(
     lat: float = Query(..., description="User latitude"),
     lon: float = Query(..., description="User longitude"),
-    limit: int = Query(5, ge=1, description="Limit number of stores"),
+    limit: int = Query(NEARBY_STORES_DEFAULT_LIMIT, ge=1, description="Limit number of stores"),
     data_provider: DataProvider = Depends(get_data_provider),
 ) -> List[StoreWithDistance]:
     # https://9b15cf90cd3ef5b93a7c5ec67d7f734d.serveo.net/stores/nearby?lat=0&lon=0

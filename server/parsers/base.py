@@ -5,6 +5,8 @@ from typing import Optional
 
 import aiohttp
 
+from server.constants import HTTP_OK
+
 
 class BaseParser(ABC):
     """Базовый класс для асинхронных HTML-парсеров."""
@@ -14,7 +16,7 @@ class BaseParser(ABC):
 
     async def fetch_html(self, session: aiohttp.ClientSession) -> Optional[str]:
         async with session.get(self.url) as response:
-            if response.status != 200:
+            if response.status != HTTP_OK:
                 return None
             return await response.text()
 

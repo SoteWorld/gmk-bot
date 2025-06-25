@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 
 from server.models import Product
+from server.constants import PRODUCT_TTL
 
 from .base_redis_repository import BaseRedisRepository
 
@@ -10,7 +11,7 @@ from .base_redis_repository import BaseRedisRepository
 class ProductRedisRepository(BaseRedisRepository):
     """CRUD-операции для моделей Product в Redis."""
 
-    async def add_product(self, product: Product, ttl: int | None = 1800) -> None:
+    async def add_product(self, product: Product, ttl: int | None = PRODUCT_TTL) -> None:
         await self._set_json(f"product:{product.id}", product.model_dump(), ttl)
 
     async def get_product(self, product_id: str) -> Optional[Product]:

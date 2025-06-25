@@ -3,6 +3,7 @@ from aiogram.types import CallbackQuery, Message, KeyboardButton, ReplyKeyboardM
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from server.services.data_provider import DataProvider
+from server.constants import ITEMS_PER_PAGE
 from ..keyboards import menu_markup
 
 router = Router(name="stores")
@@ -23,7 +24,6 @@ async def request_location(call: CallbackQuery) -> None:
     )
     await call.answer()
 
-ITEMS_PER_PAGE = 5
 
 def build_page_text(stores, start, end):
     parts = []

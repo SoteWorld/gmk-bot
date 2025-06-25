@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from typing import Any, List, Optional
 
+from server.constants import REDIS_JSON_TTL
+
 import redis.asyncio as redis
 
 
@@ -26,7 +28,7 @@ class BaseRedisRepository:
             await self._redis.delete(*keys)
 
     # -------------------- вспомогательные методы --------------------
-    async def _set_json(self, key: str, value: Any, ttl: int | None = 1800) -> None:
+    async def _set_json(self, key: str, value: Any, ttl: int | None = REDIS_JSON_TTL) -> None:
         data = json.dumps(value)
         await self._redis.set(key, data, ex=ttl)
 
