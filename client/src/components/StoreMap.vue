@@ -149,7 +149,7 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
 
 .store-marker-dot {
   background-color: #ef4444; /* red-500 */
-  border-radius: 9999px;
+  border-radius: 0.25rem; /* square with slight rounding */
   width: 1.25rem; /* w-5 */
   height: 1.25rem; /* h-5 */
   border: 2px solid #ffffff;
@@ -167,7 +167,8 @@ watch(() => [props.stores, props.userLocation, props.selectedStore], updateMarke
 
 .store-marker-dot-inner {
   background-color: #ffffff;
-  border-radius: 9999px;
+  border-radius: 0.25rem; /* square with slight rounding */
+  transform: rotate(-45deg);
   width: 0.375rem; /* w-1.5 */
   height: 0.375rem; /* h-1.5 */
 }
