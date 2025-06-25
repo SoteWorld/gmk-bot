@@ -30,6 +30,11 @@ function updateMarkers() {
   map.eachLayer((layer: any) => {
     if (layer instanceof L.Marker) map!.removeLayer(layer)
   })
+
+  const validStores = props.stores.filter(
+    (s) => s.latitude != null && s.longitude != null,
+  )
+
   if (props.userLocation) {
     const userIcon = L.divIcon({
       html: '<div class="user-location-dot"></div>',
@@ -41,7 +46,8 @@ function updateMarkers() {
       .bindPopup('Ваше местоположение')
       .addTo(map)
   }
-  props.stores.forEach((store) => {
+
+  validStores.forEach((store) => {
     const isSelected = props.selectedStore?.id === store.id
     const storeIcon = L.divIcon({
       html: `<div class="store-marker-dot ${isSelected ? 'store-marker-selected' : ''}">
@@ -64,15 +70,20 @@ function updateMarkers() {
       )
       .addTo(map!)
   })
-  if (props.stores.length > 0) {
-    const group = new L.FeatureGroup()
-    props.stores.forEach((store) => {
-      group.addLayer(L.marker([store.latitude!, store.longitude!]))
-    })
-    if (props.userLocation) {
-      group.addLayer(L.marker([props.userLocation.latitude, props.userLocation.longitude]))
-    }
+  const group = new L.FeatureGroup()
+  validStores.forEach((store) => {
+    group.addLayer(L.marker([store.latitude!, store.longitude!]))
+  })
+  if (props.userLocation) {
+    group.addLayer(L.marker([props.userLocation.latitude, props.userLocation.longitude]))
+  }
+
+  if (group.getLayers().length > 0) {
     map.fitBounds(group.getBounds().pad(0.1))
+  } else if (props.userLocation) {
+    map.setView([props.userLocation.latitude, props.userLocation.longitude], 13)
+  } else {
+    map.setView([53.9, 27.5], 11)
   }
 }
 
