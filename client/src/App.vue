@@ -69,13 +69,11 @@ a {
 /* Custom scrollbar - thumb only */
 ::-webkit-scrollbar-thumb {
   background: #b1b1b1;
-
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8f8f8f;
 }
-
 
 /* Image loading placeholder */
 img {
