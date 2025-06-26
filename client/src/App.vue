@@ -41,7 +41,6 @@ body {
   background-color: var(--tg-bg-color);
   color: var(--tg-text-color);
   overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 /* Mobile-first design */
@@ -64,15 +63,6 @@ a {
     transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-/* Custom scrollbar - thumb only */
-::-webkit-scrollbar-thumb {
-  background: #b1b1b1;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #8f8f8f;
 }
 
 /* Image loading placeholder */
@@ -100,9 +90,11 @@ img {
   height: 100dvh; /* Dynamic viewport height for mobile browsers */
   overflow-y: scroll; /* Keep scrollbar over content to avoid layout shift */
 }
-.tg-viewport::-webkit-scrollbar {
-  display: none;
+
+.tg-viewport::-webkit-scrollbar{
+  width: 0 !important;
 }
+
 
 /* Prevent horizontal scroll */
 html,
